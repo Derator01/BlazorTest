@@ -1,0 +1,44 @@
+﻿@page "/form-submit"
+@using BlazorTest.Shared
+
+@inject HttpClient Http
+
+<PageTitle>Submit Form</PageTitle>
+
+@*authorized*@
+@*If not sent*@
+<h1>Enter your penis</h1>
+
+<EditForm Model="Model" OnSubmit="Submit">
+    <label>Enter your name:
+        <InputText @bind-Value="Model!.Name" />
+    </label>
+
+    <label>Enter your last name:
+        <InputText @bind-Value="Model!.LastName" />
+    </label>
+
+    <label>Enter your birthday:
+        <InputDate @bind-Value="Model!.DOB" />
+    </label>
+</EditForm>  
+@*If not sent*@
+@*If sent*@
+
+@*If sent*@
+@*authorized*@
+@*unauthorized*@
+
+@*unauthorized*@
+
+
+@code {
+    public PersonalData? Model { get; set; } = new();
+
+    public bool PostSucceeded = false;
+
+    private async Task Submit()
+    {
+        PostSucceeded = (await Http.PostAsJsonAsync<PersonalData>("PersonalData", Model)).IsSuccessStatusCode;
+    }
+}
